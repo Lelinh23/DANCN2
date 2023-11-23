@@ -4,9 +4,58 @@ import { Colors } from "../../assets/colors";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SCREENS } from "../../helpers/constants";
+import { register, checkuserExist } from "../../Services/XacThuc"
+import LottieView from "lottie-react-native";
+import { Images } from "../../assets/images";
+import { useNavigation } from "@react-navigation/native";
 
-const RegisterPage = ({navigation}: {navigation: any}) => {
+const RegisterPage = () => {
+    const navigation: any = useNavigation();
+
     const [isHienPass, setHienPass] = useState(false);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [usernameErrMess, setUsernameErrMess] = useState('');
+    const [emailErrMess, setEmailErrMess] = useState('');
+
+    // xử lý việc đăng ký
+    const dangky = () =>{
+        //khởi tạo Đối Tượng Người Dùng
+        let user = {
+            username,
+            email,
+            password
+        };
+        console.log(user);
+        setIsLoading(true)
+        // gửi yêu cầu đăng ký đến máy chủ 
+        register(user).then(response => {
+            setIsLoading(false)
+            console.log(response);
+            if (!response?.status) {
+                setErrorMessage(response?.message)
+            }
+        });
+    }
+
+    // xử lý 
+    const checkUserExist = async (type: any, value: any ) => {
+        if (value?.length > 0) {
+            checkuserExist(type, value).then(response => {
+                if (response?.status) {
+                    type === 'email' && emailErrMess ? setEmailErrMess('') : null;
+                    type === 'username' && usernameErrMess ? setUsernameErrMess('') : null;
+                } else {
+                    type === 'email' ? setEmailErrMess(response?.message) : null;
+                    type === 'username' ? setUsernameErrMess(response?.message) : null;
+                }
+            })
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen, marginTop: '13%' }}>
             <View style={styles.header}>
@@ -14,36 +63,52 @@ const RegisterPage = ({navigation}: {navigation: any}) => {
                 <Text style={styles.txtNewAcc}> Tạo một tài khoản mới </Text>
             </View>
             <View style={ styles.noidung}>
-
+                
                 <Ionicons name="fast-food" size={60} style={[styles.icon, {marginBottom: '10%'}]} />
 
                 <View style={styles.formGroup}>
                     <Icon name="person" size={30} style={styles.icon}/>
-                    <TextInput placeholder="Username" style={styles.formLabel} keyboardType='email-address'/>
+                    <TextInput placeholder="Username" style={styles.formLabel}
+                            onChangeText={(text) => setUsername(text)}
+                            onEndEditing={({nativeEvent: {text}}) => checkUserExist('username', text)}/>
                 </View>
+
+                <Text style={styles.loitemail}>{usernameErrMess}</Text>
 
                 <View style={styles.formGroup}>
                     <Icon name="email" size={30} style={styles.icon}/>
-                    <TextInput placeholder="Email" style={styles.formLabel} />
+                    <TextInput placeholder="Email" style={styles.formLabel} keyboardType='email-address'
+                            onChangeText={(text) => setEmail(text)}
+                            onEndEditing={({nativeEvent: {text}}) => checkUserExist('email', text)}/>
                 </View>
+
+                <Text style={styles.loitemail}>{emailErrMess}</Text>
 
                 <View style={styles.formGroup}>
                     <Icon name="lock" size={30} style={styles.icon}/>
                     <TextInput placeholder="Password" style={styles.formLabel} 
-                               secureTextEntry={isHienPass ? false: true}/>
+                               secureTextEntry={isHienPass ? false: true}
+                               onChangeText={(text) => setPassword(text)}/>
                     <Ionicons name={isHienPass ? 'eye' : 'eye-off'} size={30} style={styles.icon} onPress={() => setHienPass(!isHienPass)}/>
                 </View>
+                
+                <Text style={styles.loiMess}>{errorMessage}</Text>
 
-                <View style={styles.buttonSig}>
-                    <TouchableOpacity style={styles.button} >
-                        <Text style={styles.btText} onPress={() => navigation.navigate(SCREENS.REGSDT)}>TẠO TÀI KHOẢN</Text>
+                <View style={styles.buttonSig}>  
+                    <TouchableOpacity style={styles.button} onPress={() => dangky()}>
+                    {isLoading ? 
+                    (<LottieView style={styles.lottie} source={Images.LOADING} autoPlay />)
+                                                        :
+                    (<Text style={styles.btText}>ĐĂNG KÝ</Text>)
+                    }     
                     </TouchableOpacity>
-                </View>
-                <View style={styles.indexSig}>
-                    <Text style={styles.DacoAcc}>Bạn đã có tài khoản? </Text>
-                    <TouchableOpacity >
-                        <Text style={styles.login} onPress={() => navigation.navigate(SCREENS.LOGIN)}>Đăng nhập tại đây</Text>
-                    </TouchableOpacity>
+
+                    <View style={styles.indexSig}>
+                        <Text style={styles.DacoAcc}>Bạn đã có tài khoản? </Text>
+                        <TouchableOpacity>
+                            <Text style={styles.login} onPress={() => navigation.navigate(SCREENS.LOGIN)}>Đăng nhập tại đây</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
     </SafeAreaView>
@@ -84,7 +149,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 3,
-        marginBottom: 20,
         borderColor: Colors.nen, // Border color
         borderRadius: 20, 
     },
@@ -103,10 +167,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     buttonSig: {
-        marginTop: '24%',
-        borderRadius: 10,
         width: '90%',
-        margin: '3%',
+        height: '10%',
+        marginTop: '10%'
     },
     button:{
         backgroundColor: Colors.nen,
@@ -123,7 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center', 
         backgroundColor: Colors.white,
-        marginBottom:'15%',
+        justifyContent: 'center'
     },
     DacoAcc:{
         fontSize: 16, 
@@ -133,5 +196,21 @@ const styles = StyleSheet.create({
         color: Colors.nen, 
         fontWeight: 'bold', 
         fontSize: 16
-    }
+    },
+    loiMess:{
+        fontSize: 16,
+        lineHeight: 18,
+        color: Colors.red,
+    },
+    lottie:{
+        width: '100%', 
+        height: '100%', 
+        position:'relative',
+    },
+    loitemail:{
+        fontSize: 14,
+        lineHeight: 18,
+        color: Colors.red,
+        marginBottom: '2%',
+    },
 })

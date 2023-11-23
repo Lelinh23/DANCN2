@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import { Colors } from '../../assets/colors';
-import { Images } from '../../assets/images';
-import { SCREENS } from "../../helpers/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { SCREENS } from "../../helpers/constants";
 
-const SplashPage = () => {
-    const navigation = useNavigation();
-    // useEffect(()=> {
-    //     setTimeout(()=>{
-    //         navigation.navigate(SCREENS.HI);
-    //     }, 3000)
-    // }, [])
+const GioiThieuPage = ({navigation}: {navigation: any}) => {
+
+    useEffect(()=> {
+        setTimeout(()=>{
+            navigation.navigate(SCREENS.LOGIN);
+        }, 3000)
+    }, [])
+    
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
@@ -20,8 +19,7 @@ const SplashPage = () => {
                 backgroundColor={Colors.primary1}
                 translucent/>
             <View style={styles.container}>
-                <Image source={Images.LOGO} resizeMode="contain" style={styles.image} />
-                <Text style={styles.titleText}>FooDelivery</Text>
+                <Text>Hi</Text>
             </View>
         </SafeAreaView>
     );
@@ -34,14 +32,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.primary1
     },
-    image: {
-        height: 100,
-        width: 100,
-    },
-    titleText: {
-        color: Colors.black,
-        fontSize: 32
-    }
 });
 
-export default SplashPage;
+export default GioiThieuPage;

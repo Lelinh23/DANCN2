@@ -1,13 +1,42 @@
 import React, { useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, View, Image, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../../assets/colors";
 import { SCREENS } from "../../helpers/constants";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { login } from "../../Services/XacThuc";
+import LottieView from "lottie-react-native";
+import { Images } from "../../assets/images";
+import { connect } from "react-redux";
+import { setIsAppLoading, setToken, ActionTypes } from "../../Redux/Actions/HanhDongChung";
+import { useNavigation } from "@react-navigation/native";
 
-const LoginPage = ({navigation}: {navigation: any}) => {   
+const LoginPage = ({setToken}: {setToken: any}) => {  
+    const navigation: any = useNavigation();
+    
     const [isHienPass, setHienPass] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const DangNhap =async () => {
+        setIsLoading(true);
+
+        let user = {
+            email, password
+        }
+
+        login(user).then(response => {
+            setIsLoading(false);
+            setToken(response?.data);
+            if (!response?.status) {
+                setErrorMessage(response?.message);
+            }
+        })
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen, marginTop: '13%' }}>
             <View style={styles.header}>
@@ -17,17 +46,22 @@ const LoginPage = ({navigation}: {navigation: any}) => {
                 <Text style={styles.tittelWel}> Welcome Back </Text>
                 <Text style={styles.tiielLog}> Đăng nhập vào tài khoản của bạn </Text>
 
+                <Text style={styles.loiMess}>{errorMessage}</Text>
+
                 <View style={styles.formGroup}>
                     <Icon name="email" size={30} style={styles.icon}/>
-                    <TextInput placeholder="Email" style={styles.formLabel} />
+                    <TextInput placeholder="Email" style={styles.formLabel}
+                    onChangeText={(text) => setEmail(text)} />
                 </View>
 
                 <View style={styles.formGroup}>
                     <Icon name="lock" size={30} style={styles.icon}/>
                     <TextInput placeholder="Password" style={styles.formLabel} 
-                               secureTextEntry={isHienPass ? false: true}/>
-                    <Ionicons name={isHienPass ? 'eye' : 'eye-off'} size={30} style={styles.icon} onPress={() => setHienPass(!isHienPass)}/>
-                </View>
+                               secureTextEntry={isHienPass ? false: true}
+                               onChangeText={(text) => setPassword(text)}/>
+                    <Ionicons name={isHienPass ? 'eye' : 'eye-off'} size={30} style={styles.icon} 
+                    onPress={() => setHienPass(!isHienPass)}/>
+                </View> 
 
                 <View style={styles.NhoorQuen}>
                     <BouncyCheckbox style={styles.Nho} 
@@ -44,8 +78,12 @@ const LoginPage = ({navigation}: {navigation: any}) => {
 
             <View style={{ alignItems: 'center', backgroundColor: Colors.white }}>
                 <View style={styles.buttonLog}>
-                    <TouchableOpacity style={styles.button} >
-                        <Text style={styles.buttonText}>ĐĂNG NHẬP</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => DangNhap()}>
+                    {isLoading ? 
+                    (<LottieView style={styles.lottie} source={Images.LOADING} autoPlay />)
+                                                        :
+                    (<Text style={styles.buttonText}>ĐĂNG NHẬP</Text>)
+                    }
                     </TouchableOpacity>
                 </View>
                 <View style={styles.indexLogin}>
@@ -59,7 +97,13 @@ const LoginPage = ({navigation}: {navigation: any}) => {
     )
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+    return {
+       setToken: (token: any) => dispatch(setToken(token)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);
 
 const styles = StyleSheet.create({
     header: {
@@ -93,7 +137,7 @@ const styles = StyleSheet.create({
         color: 'grey',
         fontSize: 19,
         fontWeight: 'bold',
-        marginBottom: '15%',
+        marginBottom: '10%',
     },
     formGroup: {
         width: '80%',
@@ -163,5 +207,16 @@ const styles = StyleSheet.create({
     },
     Nho: {
         paddingRight: '30%',
-    }
+    },
+    loiMess:{
+        fontSize: 16,
+        lineHeight: 18,
+        color: Colors.red,
+        marginBottom: 20
+    },
+    lottie:{
+        width: '100%', 
+        height: '100%', 
+        position:'relative',
+    },
 })

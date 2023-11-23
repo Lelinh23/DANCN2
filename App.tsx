@@ -7,10 +7,15 @@
 
 import React from 'react';
 import Navigation from './src/Navigators';
+import { store } from "./src/Redux/Store/Store";
+import { Provider } from "react-redux";
 function App(): JSX.Element {
   
   return (
-    <Navigation />
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+    
   );
 }
 
