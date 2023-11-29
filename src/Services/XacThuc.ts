@@ -1,5 +1,7 @@
 import axios from "axios";
 import * as ApiConstants from "../helpers/ApiConstants";
+import { authHeader } from "../helpers/Chung";
+import { getToken } from "../Redux/Store/Store";
 
 const AuthRequest = axios.create({
     baseURL: ApiConstants.SERVER_API.BASE_API_URL
@@ -81,4 +83,30 @@ const checkuserExist = async (type: any, value: any) => {
     }
 };
 
-export {register, login, checkuserExist};
+const capnhatToken = async () => {
+
+    try {
+        let tokenResponse = await AuthRequest.get(
+            ApiConstants.SERVER_API.REFRESH_TOKEN, 
+            {headers: authHeader(getToken())});
+
+        if (tokenResponse?.status === 200) {
+            return {
+                status: true,
+                data: tokenResponse?.data
+            }
+        } else {
+            return {
+                status: false
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        return{
+            status: false,
+            message: "Ối! Đã xảy ra lỗi"
+        }
+    }
+};
+
+export {register, login, checkuserExist, capnhatToken};

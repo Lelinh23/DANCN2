@@ -11,7 +11,9 @@ const SERVER_API = {
     BASE_API_URL: `${BACKEND_BASE_URL}/api`,
     REGISTER: '/register',
     LOGIN: '/login',
-    USER_EXIST: '/exist-user'
+    USER_EXIST: '/exist-user',
+    USER: '/user',
+    REFRESH_TOKEN: '/refresh-token'
 }
 
 export {CO_QUOC_GIA, SERVER_API};

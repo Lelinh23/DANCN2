@@ -8,12 +8,14 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { login } from "../../Services/XacThuc";
 import LottieView from "lottie-react-native";
 import { Images } from "../../assets/images";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { setIsAppLoading, setToken, ActionTypes } from "../../Redux/Actions/HanhDongChung";
 import { useNavigation } from "@react-navigation/native";
 
-const LoginPage = ({setToken}: {setToken: any}) => {  
+const LoginPage = () => {  
     const navigation: any = useNavigation();
+
+    const dispatch = useDispatch(); 
     
     const [isHienPass, setHienPass] = useState(false);
     const [email, setEmail] = useState('');
@@ -30,7 +32,7 @@ const LoginPage = ({setToken}: {setToken: any}) => {
 
         login(user).then(response => {
             setIsLoading(false);
-            setToken(response?.data);
+            dispatch(setToken(response?.data)); // Gửi hành động
             if (!response?.status) {
                 setErrorMessage(response?.message);
             }
@@ -38,9 +40,9 @@ const LoginPage = ({setToken}: {setToken: any}) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen, marginTop: '13%' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen}}>
             <View style={styles.header}>
-                <Text style={styles.TillerHeader }> ĐĂNG NHẬP </Text>
+                <Text style={styles.TillerHeader}> ĐĂNG NHẬP </Text>
             </View>
             <View style={ styles.noidung}>
                 <Text style={styles.tittelWel}> Welcome Back </Text>
@@ -97,13 +99,13 @@ const LoginPage = ({setToken}: {setToken: any}) => {
     )
 }
 
-const mapDispatchToProps = (dispatch: (arg0: { type: string; payload: any; }) => any) => {
-    return {
-       setToken: (token: any) => dispatch(setToken(token)),
-    };
-};
+// const mapDispatchToProps = (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+//     return {
+//        setToken: (token: any) => dispatch(setToken(token)),
+//     };
+// };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default (LoginPage);
 
 const styles = StyleSheet.create({
     header: {

@@ -9,7 +9,8 @@ interface QuanLyChungState {
 const BanDauState = {
     isAppLoading: false,
     token: '',
-    isLanDauUse: true
+    isLanDauUse: true,
+    userData: {}
 }
 
 const QuanLyChung = (state: QuanLyChungState = BanDauState, action: any) => {
@@ -25,6 +26,10 @@ const QuanLyChung = (state: QuanLyChungState = BanDauState, action: any) => {
         case ActionTypes.SET_LAN_DAU_USE:
             return {
                 ...state, isLanDauUse: action.payload
+            };
+        case ActionTypes.SET_USER_DATA:
+            return {
+                    ...state, userData: action.payload
             };
         default:
             return state;

@@ -9,7 +9,9 @@ const store = configureStore({
   middleware: [thunk],
 });
 
+const getToken = () => store?.getState()?.QuanLyChung?.token
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export { store };
+export { store, getToken };
