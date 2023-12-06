@@ -1,11 +1,11 @@
 const Colors = {
-    nen: "#30b9b2",
+    nen: "#17664E",
     mau_bt_sdt: "#f2f9f9",
     mau_vien_bt_sdt: "#28bbb8",
-    primary1: "#00fff53c",
-    secondary: "#ffa44f",
-    secondary1: "#ffe5db",
-    tertiary: "#0078a6",
+    mau_chu: "#F5B027",
+    mau_icon: "#FF914D",
+    mau_chu_2: "#F5B027",
+    mau_vien_distance: "#FFF9C7",
   
     gray: "#83829A",
     gray2: "#C1C0C8",

@@ -15,6 +15,7 @@ import VerificationPage from "../Pages/Register/VerificationPage";
 import { useAppSelector, useAppDispatch } from '../Redux/app/hooks'
 import { ActionTypes, appStart } from "../Redux/Actions/HanhDongChung";
 import GioiThieuPage from "../Pages/GioiThieu/GioiThieuPage";
+import RestaurantPage from "../Pages/Restaurant/RestaurantPage";
 
 const Stack = createNativeStackNavigator()
 
@@ -31,20 +32,23 @@ const Navigation = () => {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown:false}}>
                 {isAppLoading ? (
-                        <Stack.Screen name={SCREENS.SPLASH} component={SplashPage} />
+                            <Stack.Screen name={SCREENS.SPLASH} component={SplashPage} />
                     ) :!token ?  (
                         <>
                         {isLanDauUse && (
-                        <Stack.Screen name={SCREENS.HI} component={GioiThieuPage}/>
+                            <Stack.Screen name={SCREENS.HI} component={GioiThieuPage}/>
                         )}
-                        <Stack.Screen name={SCREENS.LOGIN} component={LoginPage} />
-                        <Stack.Screen name={SCREENS.REGISTER} component={RegisterPage} />
-                        <Stack.Screen name={SCREENS.FORGOTPASS} component={ForgotPasswordPage} />
-                        <Stack.Screen name={SCREENS.REGSDT} component={RegisterPhonePage} />
-                        <Stack.Screen name={SCREENS.OTP} component={VerificationPage} />
+                            <Stack.Screen name={SCREENS.LOGIN} component={LoginPage} />
+                            <Stack.Screen name={SCREENS.REGISTER} component={RegisterPage} />
+                            <Stack.Screen name={SCREENS.FORGOTPASS} component={ForgotPasswordPage} />
+                            <Stack.Screen name={SCREENS.REGSDT} component={RegisterPhonePage} />
+                            <Stack.Screen name={SCREENS.OTP} component={VerificationPage} />
                         </>
                     ) : (
-                        <Stack.Screen name={SCREENS.HOME} component={HomePage} />
+                        <>
+                            <Stack.Screen name={SCREENS.HOME} component={HomePage} />
+                            <Stack.Screen name={SCREENS.RESTAURANT} component={RestaurantPage} />
+                        </>
                     )
                 }
                 

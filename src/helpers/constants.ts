@@ -6,5 +6,6 @@ export const SCREENS = {
     FORGOTPASS: 'ForgotPasswordPage',
     REGSDT: 'RegisterPhonePage',
     OTP: 'VerificationPage',
-    HI: 'GioiThieuPage'
+    HI: 'GioiThieuPage',
+    RESTAURANT: 'RestaurantPage'
 }

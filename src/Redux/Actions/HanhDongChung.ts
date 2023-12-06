@@ -1,4 +1,3 @@
-import { ThunkAction } from "redux-thunk";
 import { getLanDauUse, getToken } from "../../Services/Storage";
 import { getUserData } from "../../Services/User";
 import { capnhatToken } from "../../Services/XacThuc";

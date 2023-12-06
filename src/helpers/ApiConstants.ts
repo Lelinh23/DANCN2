@@ -7,13 +7,21 @@ const CO_QUOC_GIA = {
     STYLE: {FLAT: 'flat', SHINY: 'shiny'},
 };
 
+const STATIC_IMAGE = {
+    BASE_URL: `${BACKEND_BASE_URL}/images`,
+    TYPE: {POSTER: 'poster', LOGO: 'logo', GALLERY: 'gallery'},
+    SIZE: {SQUARE: 'square', LANDSCAPE: 'landscape', PORTRAIT: 'portrait'},
+    QUALITY: {SD: 'sd', HD: 'hd'},
+}
+
 const SERVER_API = {
     BASE_API_URL: `${BACKEND_BASE_URL}/api`,
     REGISTER: '/register',
     LOGIN: '/login',
     USER_EXIST: '/exist-user',
     USER: '/user',
-    REFRESH_TOKEN: '/refresh-token'
+    REFRESH_TOKEN: '/refresh-token',
+    RESTAURANT: '/nhahang'
 }
 
-export {CO_QUOC_GIA, SERVER_API};
+export {CO_QUOC_GIA, SERVER_API, STATIC_IMAGE};
