@@ -6,6 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var XacThucRouter = require('./routes/XacThuc');
+var NhaHangRouter = require('./routes/NhaHang');
+var CartRouter = require('./routes/Cart');
+var FoodRouter = require('./routes/Food');
+var LoveRouter = require('./routes/Love');
 // them
 const MongoDB = require('./services/mongodb');
 
@@ -21,13 +25,17 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('static'));
 
 app.use('/', indexRouter);
 app.use('/api', XacThucRouter);
 app.use('*', require("./services/XacThucServices").XacMinhToken);//t
 
 app.use('/api/user', XacThucRouter);
+app.use('/api/nhahang', NhaHangRouter);
+app.use('/api/cart', CartRouter);
+app.use('/api/food', FoodRouter);
+app.use('/api/favorite', LoveRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
