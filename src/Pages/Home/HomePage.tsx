@@ -16,7 +16,7 @@ const sortStyle = (isActive: any) => isActive ? styles.sortList : {
 }
 
 const HomePage = ({}) => {
-    const navigation = useNavigation();
+    const navigation: any = useNavigation();
 
     const[nhahangs, setNhaHang] = useState<any | null>(null);
     const[activeSortItem, setActiveSortItem] = useState('gần đây')
@@ -25,7 +25,6 @@ const HomePage = ({}) => {
         const unsubscribe = navigation.addListener('focus', () => {
             getNhaHang().then(response => {
                 if (response?.status) {
-                    console.log(response?.data)
                     setNhaHang(response?.data);
                 }
             })
@@ -80,7 +79,7 @@ const HomePage = ({}) => {
                         horizontal
                         renderItem={({item}) => (
                             <RestaurantCard
-                            {...item}/>
+                            {...item} navigate={(IdNhaHang: any) => navigation.navigate(SCREENS.RESTAURANT, {IdNhaHang})}/>
                         )}/>
                 </View>
                 <View style={styles.sortList}>
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: Colors.nen,
-        height: '30%',
+        height: '33%',
         position: 'absolute',
         width: '100%',
         borderRadius: 30,

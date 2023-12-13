@@ -7,5 +7,10 @@ const Images: { [key: string]: any } = {
     BUN: require('../assets/images/DanhMuc/bun.png'),
     SUP: require('../assets/images/DanhMuc/sup.png'),
     MI: require('../assets/images/DanhMuc/mi.png'),
+    DELIVELY: require('../assets/images/delive.json'),
+    TIME: require('../assets/images/time.json'),
+    DISTANCE: require('../assets/images/location.json'),
+    CART_NO_ITEM: require('./images/cartIsItem.json'),
+    AVATAR: require('./images/avata.png')
   };
 export { Images };

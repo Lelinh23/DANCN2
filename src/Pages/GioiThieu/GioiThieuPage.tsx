@@ -6,17 +6,17 @@ import { SCREENS } from "../../helpers/constants";
 
 const GioiThieuPage = ({navigation}: {navigation: any}) => {
 
-    useEffect(()=> {
-        setTimeout(()=>{
-            navigation.navigate(SCREENS.LOGIN);
-        }, 3000)
-    }, [])
+    // useEffect(()=> {
+    //     setTimeout(()=>{
+    //         navigation.navigate(SCREENS.LOGIN);
+    //     }, 3000)
+    // }, [])
     
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
                 barStyle="light-content" 
-                backgroundColor={Colors.primary1}
+                backgroundColor={Colors.nen}
                 translucent/>
             <View style={styles.container}>
                 <Text>Hi</Text>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.primary1
+        backgroundColor: Colors.nen
     },
 });
 

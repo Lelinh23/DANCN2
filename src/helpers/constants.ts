@@ -7,5 +7,9 @@ export const SCREENS = {
     REGSDT: 'RegisterPhonePage',
     OTP: 'VerificationPage',
     HI: 'GioiThieuPage',
-    RESTAURANT: 'RestaurantPage'
+    RESTAURANT: 'RestaurantPage',
+    CART: 'CartPage',
+    FOOD: 'FoodPage',
+    LOVE: 'LovePage',
+    ACCOUNT: 'AccountPage'
 }

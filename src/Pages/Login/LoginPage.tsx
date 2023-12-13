@@ -11,6 +11,7 @@ import { Images } from "../../assets/images";
 import { connect, useDispatch } from "react-redux";
 import { setIsAppLoading, setToken, ActionTypes } from "../../Redux/Actions/HanhDongChung";
 import { useNavigation } from "@react-navigation/native";
+import { setToken as settoken } from "../../Services/Storage";
 
 const LoginPage = () => {  
     const navigation: any = useNavigation();
@@ -30,10 +31,12 @@ const LoginPage = () => {
             email, password
         }
 
-        login(user).then(response => {
+        login(user).then(async response => {
             setIsLoading(false);
-            dispatch(setToken(response?.data)); // Gửi hành động
-            if (!response?.status) {
+            if (response?.status) {
+                await settoken(response?.data);
+                dispatch(setToken(response?.data));
+            } else {
                 setErrorMessage(response?.message);
             }
         })
@@ -105,7 +108,7 @@ const LoginPage = () => {
 //     };
 // };
 
-export default (LoginPage);
+export default LoginPage;
 
 const styles = StyleSheet.create({
     header: {

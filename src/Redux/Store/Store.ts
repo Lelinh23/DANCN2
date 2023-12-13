@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import {QuanLyChung}from '../Reducers/QuanLyChung';
+import {cartReducer}from '../Reducers/Cart';
+import { loveReducer } from '../Reducers/Love';
 
 const store = configureStore({
   reducer: {
-    QuanLyChung: QuanLyChung
+    loveState: loveReducer,
+    cartState: cartReducer,
+    QuanLyChung: QuanLyChung,
   },
   middleware: [thunk],
 });

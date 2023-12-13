@@ -57,7 +57,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen, marginTop: '13%' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen}}>
             <View style={styles.header}>
                 <Text style={styles.TillerHeader}> ĐĂNG KÝ </Text>
                 <Text style={styles.txtNewAcc}> Tạo một tài khoản mới </Text>

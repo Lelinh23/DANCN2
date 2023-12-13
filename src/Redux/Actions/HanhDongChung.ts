@@ -1,6 +1,7 @@
 import { getLanDauUse, getToken } from "../../Services/Storage";
 import { getUserData } from "../../Services/User";
 import { capnhatToken } from "../../Services/XacThuc";
+import { GetLove } from "./LoveAction";
 
 const ActionTypes = {
   SET_IS_APP_LOADING: 'SET_IS_APP_LOADING',
@@ -40,43 +41,76 @@ const setUserData = (userData: any) => {
 const appStart = () => {
   return (dispatch: (arg0: { type: string; payload: any; }) => void, getState: any) => {
     getLanDauUse().then(isLanDauUse => {
-      dispatch(setLanDauUse(isLanDauUse ? false : true));
+      dispatch({
+        type: ActionTypes.SET_LAN_DAU_USE,
+        payload: isLanDauUse ? false : true
+      })
     });
 
-    getUserData().then(userResponse => {
-      if (userResponse?.status) {
-        dispatch(setUserData(userResponse?.data));
+    getToken().then(token => {
+      if (token) {
+        dispatch({
+          type: ActionTypes.SET_TOKEN,
+          payload: token,
+        })
 
-        dispatch(setIsAppLoading(false));
-      } else if (userResponse?.message === 'TokenExpiredError') {
-        capnhatToken().then(tokenResponse => {
-          if (tokenResponse?.status) {
-            dispatch(setToken(tokenResponse?.data));
+        getUserData().then(userResponse =>{
+          if (userResponse?.status) {
+            dispatch({
+              type: ActionTypes.SET_USER_DATA,
+              payload: userResponse?.data,
+            })
 
-            getUserData().then(userResponse => {
-              if (userResponse?.status) {
-                dispatch(setUserData(userResponse?.data));
+            dispatch({
+              type: ActionTypes.SET_IS_APP_LOADING,
+              payload: false,
+            });
 
-                dispatch(setIsAppLoading(false));
+          } else if (userResponse?.message === 'TokenExpiredError') {
+            capnhatToken().then(tokenResponse => {
+              if (tokenResponse?.status) {
+                dispatch({
+                  type: ActionTypes.SET_TOKEN,
+                  payload: tokenResponse?.data,
+                });
+    
+                getUserData().then(userResponse => {
+                  if (userResponse?.status) {
+                    dispatch({
+                      type: ActionTypes.SET_USER_DATA,
+                      payload: userResponse?.data,
+                    });
+    
+                    dispatch({
+                      type: ActionTypes.SET_IS_APP_LOADING,
+                      payload: false,
+                    });
+                  }
+                });
+              } else {
+                dispatch({
+                  type: ActionTypes.SET_TOKEN,
+                  payload: '',
+                });
+    
+                dispatch({
+                  type: ActionTypes.SET_IS_APP_LOADING,
+                  payload: false,
+                });
               }
             });
-          } else {
-            dispatch(setToken(''));
-
-            dispatch(setIsAppLoading(false));
           }
-        });
+        })
       }
-
-      getToken().then(token => {
-        if (token) {
-          dispatch(setToken(token));
-        }
+      dispatch({
+        type: ActionTypes.SET_IS_APP_LOADING,
+        payload: false,
       });
-
-      dispatch(setLanDauUse(false));
-    });
+    })
   };
 };
 
-export { setIsAppLoading, setToken, ActionTypes, appStart };
+export { setIsAppLoading, setToken, ActionTypes, appStart, setLanDauUse, setUserData};
+
+
+    

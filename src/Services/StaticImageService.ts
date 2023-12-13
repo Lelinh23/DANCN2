@@ -15,8 +15,8 @@ const getPoster = (ImageId: any) => {
   return posterUri;
 }
 
-const getGallery = (ImageId: any, size: any, quality = STATIC_IMAGE.QUALITY.SD) => {
-  `${STATIC_IMAGE.BASE_URL}/garllery/${size}/${quality}/${ImageId}.png`
+const getGallery = (ImageId: any, size = STATIC_IMAGE.SIZE.SQUARE) => {
+  return `${STATIC_IMAGE.BASE_URL}/${STATIC_IMAGE.TYPE.GALLERY}/${size}/${ImageId}.png`
 }
 
 export { getCoIcon, getLogo, getPoster, getGallery };

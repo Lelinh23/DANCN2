@@ -6,6 +6,7 @@ const Colors = {
     mau_icon: "#FF914D",
     mau_chu_2: "#F5B027",
     mau_vien_distance: "#FFF9C7",
+    mau_tag: "#90D2BF",
   
     gray: "#83829A",
     gray2: "#C1C0C8",

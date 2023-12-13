@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { Colors } from '../assets/colors';
 import { useNavigation } from '@react-navigation/native';
 import { getPoster } from '../Services/StaticImageService';
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from "react-native-vector-icons/MaterialIcons";
+import { useAppDispatch, useAppSelector } from '../Redux/app/hooks';
+import { AddYeuThich, GetLove, XoaKhoiLove } from '../Redux/Actions/LoveAction';
 
 interface RestaurantCardProps {
     name: any;
@@ -14,14 +16,34 @@ interface RestaurantCardProps {
     tags: any;
     distance: any;
     time: any;
-  }
+    navigate: any;
+}
 
-const RestaurantCard: React.FC<RestaurantCardProps> = ({name, id, images: { poster }, tags, distance, time}) => {
+const RestaurantCard: React.FC<RestaurantCardProps> = ({name, id, images: { poster }, tags, distance, time, navigate}) => {
     const navigation = useNavigation();
 
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch<any>(GetLove());
+    }, []);
+
+    const isLove = useAppSelector(state =>
+        state?.loveState?.love?.filter((item: any) => item?.IdNhaHang === id)?.length > 0)
+
+    const addYeuThich = () => dispatch<any>(AddYeuThich(id))
+    const xoaKhoiLove = () => dispatch<any>(XoaKhoiLove(id))
+
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigate(id)}>
             <View style={styles.the}>
+                <Ionicons 
+                    name={isLove ? 'favorite' : 'favorite-border'} 
+                    size={25} 
+                    color={Colors.red}
+                    onPress={() => isLove ? xoaKhoiLove() : addYeuThich()}
+                    style={styles.iconLove}
+                />
                 <Image 
                     source={{uri: getPoster(poster)}}
                     style={styles.image}
@@ -34,18 +56,18 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({name, id, images: { post
                 </View>
                 <View style={styles.GroupS}>
                     <View style={styles.txtDanhgia}>
-                        <Ionicons name='star' size={20} color={Colors.mau_icon}/>
+                        <Ionicons name='star' size={24} color={Colors.mau_icon}/>
                         <Text style={styles.Txtrating}>4</Text>
                         <Text style={styles.Txtreviews}>({10})</Text>
                     </View>
                     <View style={styles.tx}> 
                         <View style={styles.txDistance}>
-                            <Ionicons name='location-outline' size={20} color={Colors.mau_chu_2}/>
+                            <Ionicons name='location-pin' size={20} color={Colors.mau_chu_2}/>
                             <Text style={styles.KmGiao}>{distance}</Text>
                         </View>
 
                         <View style={styles.txDistance}>
-                            <Ionicons name='time' size={20} color={Colors.mau_chu_2}/>
+                            <Ionicons name='access-time' size={20} color={Colors.mau_chu_2}/>
                             <Text style={styles.KmGiao}>{time}'</Text>
                         </View>
                     </View>
@@ -95,7 +117,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     Txtrating: {
-        paddingLeft: 5,
         color: Colors.white
     },
     Txtreviews: {
@@ -110,7 +131,8 @@ const styles = StyleSheet.create({
     },
     txtDanhgia:{
         flexDirection: 'row',
-        marginLeft: 5
+        marginLeft: 5,
+        justifyContent: 'center'
     },
     KmGiao: {
         color: Colors.mau_chu_2,
@@ -118,6 +140,12 @@ const styles = StyleSheet.create({
     },
     tx:{
         flexDirection: 'row',
+    },
+    iconLove:{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1
     }
 })
 export {RestaurantCard}
