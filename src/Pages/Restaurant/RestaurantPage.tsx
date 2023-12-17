@@ -47,7 +47,7 @@ const RestaurantPage = ({ route }: { route: any }) => {
             <StatusBar barStyle='dark-content' translucent backgroundColor="transparent" />
             {nhahang && (
                 <Image
-                    source={{ uri: getGallery(nhahang?.images?.cover,STATIC_IMAGE.SIZE.SQUARE) }}
+                    source={{ uri: getGallery(nhahang?.images?.cover,STATIC_IMAGE.SIZE.COVER) }}
                     style={styles.image}  resizeMode='stretch'
                 />
             )}

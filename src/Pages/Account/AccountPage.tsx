@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from '../../assets/colors';
 import { Images } from '../../assets/images';
@@ -11,10 +11,19 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useAppDispatch } from "../../Redux/app/hooks";
 import { setToken, setUserData } from "../../Redux/Actions/HanhDongChung";
 import { setToken as settoken } from "../../Services/Storage";
+import { getUserData } from "../../Services/User";
 
 const AccountPage = () => {
-    const navigation = useNavigation();
+    const navigation: any = useNavigation();
     const dispatch = useAppDispatch();
+    const [user, setUser] = useState<any>(null);
+    
+    useEffect(() => {
+        getUserData().then(response => {
+            console.log(response?.data);
+            setUser(response?.data);
+        })
+    }, []);
 
     const logout = async () => {
         await settoken('');
@@ -49,12 +58,14 @@ const AccountPage = () => {
                 <View style={styles.GroupHoSo}>
                     <Image style={styles.anhAvata} source={Images.AVATAR} />
                     <View style={styles.groupTxtHoSo}>
-                        <Text style={styles.txtName}>Thuỳ Linh</Text>
-                        <Text style={styles.txtEmail}>amee@gmail.com</Text>
+                        <Text style={styles.txtName}>{user?.data?.username}</Text>
+                        <Text style={styles.txtEmail}>{user?.data?.email}</Text>
                     </View>
                 </View>
                 <View style={styles.GroupMenu}>
-                    <TouchableOpacity style={styles.menuItem}>
+                    <TouchableOpacity 
+                        style={styles.menuItem} 
+                        onPress={() => navigation.navigate(SCREENS.ORDER, { email: user?.data?.email })}>
                         <Icon
                             name="truck-fast"
                             size={30}

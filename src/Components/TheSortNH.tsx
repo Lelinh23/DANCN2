@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { Colors } from '../assets/colors';
 import { useNavigation } from '@react-navigation/native';
-import { getPoster } from '../Services/StaticImageService';
+import { getLogo, getPoster } from '../Services/StaticImageService';
 import Ionicons from "react-native-vector-icons/MaterialIcons";
 import { useAppDispatch, useAppSelector } from '../Redux/app/hooks';
 import { AddYeuThich, GetLove, XoaKhoiLove } from '../Redux/Actions/LoveAction';
@@ -38,7 +38,7 @@ const SortNHCard: React.FC<SortNHCardProps> = ({name, id, images: { logo }, tags
             <View style={styles.phan}>
                 <View style={styles.Vimage}>
                     <Image 
-                        source={{uri: getPoster(logo)}}
+                        source={{uri: getLogo(logo)}}
                         style={styles.image}
                         resizeMode= 'stretch'/>
                 </View>

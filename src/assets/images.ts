@@ -11,6 +11,7 @@ const Images: { [key: string]: any } = {
     TIME: require('../assets/images/time.json'),
     DISTANCE: require('../assets/images/location.json'),
     CART_NO_ITEM: require('./images/cartIsItem.json'),
-    AVATAR: require('./images/avata.png')
+    AVATAR: require('./images/avata.png'),
+    SUSSED: require('./images/thanhcong.json')
   };
 export { Images };

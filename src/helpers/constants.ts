@@ -11,5 +11,8 @@ export const SCREENS = {
     CART: 'CartPage',
     FOOD: 'FoodPage',
     LOVE: 'LovePage',
-    ACCOUNT: 'AccountPage'
+    ACCOUNT: 'AccountPage',
+    ORDER: 'OrderPage',
+    PAY_ORDER: 'PayOrderPage',
+    ALLOW_ORDER: 'AllowOrderPage'
 }

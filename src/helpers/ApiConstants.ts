@@ -10,7 +10,7 @@ const CO_QUOC_GIA = {
 const STATIC_IMAGE = {
     BASE_URL: `${BACKEND_BASE_URL}/images`,
     TYPE: {POSTER: 'poster', LOGO: 'logo', GALLERY: 'gallery'},
-    SIZE: {SQUARE: 'square', LANDSCAPE: 'landscape', PORTRAIT: 'portrait'},
+    SIZE: {SQUARE: 'square', COVER: 'cover', PORTRAIT: 'portrait'},
 }
 
 const SERVER_API = {
@@ -23,7 +23,8 @@ const SERVER_API = {
     RESTAURANT: '/nhahang',
     CART: '/cart',
     FOOD: '/food',
-    LOVE: '/favorite'
+    LOVE: '/favorite',
+    ORDER: '/order'
 }
 
 export {CO_QUOC_GIA, SERVER_API, STATIC_IMAGE};

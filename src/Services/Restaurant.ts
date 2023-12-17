@@ -33,7 +33,7 @@ export const getNhaHang = async () => {
 }
 
 export const getNhaHangTheo1Id = async (IdNhaHang: any) => {
-    console.log('NhaHangService | getNhaHangTheo1Id');
+    console.log('NhaHangService | getNhaHangTheo1Id |', IdNhaHang);
     try {
         let nhahangResponse = await axios.get(
             `${SERVER_API.BASE_API_URL}${SERVER_API.RESTAURANT}/${IdNhaHang}`, {

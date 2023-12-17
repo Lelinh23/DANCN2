@@ -7,7 +7,7 @@ const getCoIcon = (
   ) => `${CO_QUOC_GIA.BASE_URL}/${code}/${style}/${size}.png`;
 
 const getLogo = (ImageId: any) => {
-  `${STATIC_IMAGE.BASE_URL}/logo/${ImageId}.png`
+  return `${STATIC_IMAGE.BASE_URL}/logo/${ImageId}.png`
 }
 
 const getPoster = (ImageId: any) => {

@@ -10,19 +10,25 @@ import { GetCartItem } from "../../Redux/Actions/CartAction";
 import { Images } from "../../assets/images";
 import LottieView from "lottie-react-native";
 import { SCREENS } from "../../helpers/constants";
+import { OrderFood } from "../../Redux/Actions/OrderAction";
 
 const CartPage = () => {
 
     const navigation: any = useNavigation();
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch<any>(GetCartItem());
     }, []);
 
-    const cart = useAppSelector(state => state?.cartState?.cart)
+    const cart = useAppSelector(state => state?.cartState?.cart);
 
+    const handlePlaceOrder = () => {
+        const email = cart?.cartItems[0]?.email;
+        const cartItems = cart?.cartItems;
+        const cartMeta = cart?.metaData;
+        navigation.navigate(SCREENS.PAY_ORDER, { email, cartItems, cartMeta  });
+    };
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
@@ -96,7 +102,7 @@ const CartPage = () => {
                                 </Text>
                             </View>
 
-                            <TouchableOpacity style={styles.checkoutButton}>
+                            <TouchableOpacity style={styles.checkoutButton} onPress={handlePlaceOrder}>
                                 <Text style={styles.txtCheck}>Đặt đơn - {cart?.metaData?.tongCong?.toFixed(3)}đ</Text>
                             </TouchableOpacity>
 

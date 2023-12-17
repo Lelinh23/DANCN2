@@ -20,6 +20,9 @@ import FoodPage from "../Pages/Food/FoodPage";
 import { CartPage } from "../Pages/Cart/CartPage";
 import AccountPage from "../Pages/Account/AccountPage";
 import LovePage from "../Pages/Love/LovePage";
+import AllOrderPage from "../Pages/Order/AllOrderPage";
+import { PayOrderPage } from "../Pages/Order/PayOrderPage";
+import { AllowOrderPage } from "../Pages/Order/AlllowOrder";
 
 const Stack = createNativeStackNavigator()
 
@@ -55,7 +58,10 @@ const Navigation = () => {
                             <Stack.Screen name={SCREENS.FOOD} component={FoodPage} />
                             <Stack.Screen name={SCREENS.CART} component={CartPage} />
                             <Stack.Screen name={SCREENS.LOVE} component={LovePage} />
-                            <Stack.Screen name={SCREENS.ACCOUNT} component={AccountPage} />
+                            <Stack.Screen name={SCREENS.ACCOUNT} component={AccountPage}/>
+                            <Stack.Screen name={SCREENS.ORDER} component={AllOrderPage}/>
+                            <Stack.Screen name={SCREENS.PAY_ORDER} component={PayOrderPage}/>
+                            <Stack.Screen name={SCREENS.ALLOW_ORDER} component={AllowOrderPage}/>
                         </>
                     )
                 }
