@@ -9,7 +9,8 @@ module.exports = {
             RESTAURANT: 'restaurants',
             CARTS: 'carts',
             FOODS: 'foods',
-            LOVES: 'favorites'
+            LOVES: 'favorites',
+            ORDER: 'orders'
         }
     },
     serverConfig: {
