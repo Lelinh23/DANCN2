@@ -14,5 +14,8 @@ export const SCREENS = {
     ACCOUNT: 'AccountPage',
     ORDER: 'OrderPage',
     PAY_ORDER: 'PayOrderPage',
-    ALLOW_ORDER: 'AllowOrderPage'
+    ALLOW_ORDER: 'AllowOrderPage',
+    TRACK_ORDER: 'TrackOrderPage',
+    SEARCH_RESULT: 'KetQuaSearchPage',
+    CATEGORY: 'CategoryPage'
 }

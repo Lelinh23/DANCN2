@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SCREENS } from "../../helpers/constants";
 import { SafeAreaView } from "react-native";
 import { Colors } from "../../assets/colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DanhMuc } from "../../Components/DanhMuc";
-import { getNhaHang } from "../../Services/Restaurant";
+import { getNhaHang, searchNhaHangTheoTen } from "../../Services/Restaurant";
 import { useNavigation } from "@react-navigation/native";
 import { RestaurantCard } from "../../Components/TheNhaHang"; 
 import { SortNHCard } from "../../Components/TheSortNH";
+import { useAppDispatch, useAppSelector } from "../../Redux/app/hooks";
+import { GetLove } from "../../Redux/Actions/LoveAction";
+import { LoveCard } from "../../Components/LoveCart";
+import { getFoodByNameAndCategory } from "../../Services/Food";
 
 const sortStyle = (isActive: any) => isActive ? styles.sortList : {
     ...styles.sortList, borderBottomColor: Colors.mau_icon
 }
 
-const HomePage = ({}) => {
+const HomePage = () => {
     const navigation: any = useNavigation();
-
-    const[nhahangs, setNhaHang] = useState<any | null>(null);
-    const[activeSortItem, setActiveSortItem] = useState('gần đây')
+    const [nhahangs, setNhaHang] = useState<any[] | null>(null);
+    const [activeSortItem, setActiveSortItem] = useState('gần đây');
+    const [showLoveCard, setShowLoveCard] = useState(false);
+    const [showGanDay, setShowGanDay] = useState(true);
+    const [searchText, setSearchText] = useState('');
+    const [ketqua, setKetQua] = useState<any[] | null>(null);
+    const [activeDanhMuc, setActiveDanhMuc] = useState<string | null>(null);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -27,26 +35,52 @@ const HomePage = ({}) => {
                 if (response?.status) {
                     setNhaHang(response?.data);
                 }
-            })
-        })
-        return unsubscribe
-    }, [navigation])
+            });
+        });
+        return unsubscribe;
+    }, [navigation]);
 
+    const sreach = async () => {
+        searchNhaHangTheoTen(searchText).then(response => {
+            console.log('test', response?.data)
+            setKetQua(response?.data?.data)
+            navigation.navigate(SCREENS.SEARCH_RESULT, { ketqua: response?.data?.data });
+        })
+    }
+    const dispatch = useAppDispatch();
+    
+    useEffect(() => {
+        dispatch<any>(GetLove());
+    }, []);
+    const love = useAppSelector(state => state?.loveState?.love)
+    const searchByCategory = async () => {
+        if (activeDanhMuc) {
+            getFoodByNameAndCategory(activeDanhMuc).then(response => {
+                console.log("Response: ", response); // Kiểm tra kết quả trả về từ hàm getFoodByNameAndCategory
+                if (response?.status) {
+                    setKetQua(response?.data);
+                    navigation.navigate(SCREENS.CATEGORY, { ketqua: response?.data, activeDanhMuc});
+                } else {
+                    setKetQua(null);
+                }
+            });
+        }
+    };
+    useEffect(() => {
+        searchByCategory();
+    }, [activeDanhMuc]);
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar
-                barStyle="light-content" 
-                backgroundColor={Colors.nen}
-                translucent/>
-            <View style={styles.header}>
+            <StatusBar barStyle="light-content" backgroundColor={Colors.nen} translucent />
 
+            <View style={styles.header}>
                 <View style={styles.GroupDiaChi}>
                     <Text style={styles.txtgiao}>Giao đến: </Text>
                     <View style={styles.diachi}>
-                        <Ionicons name="location-sharp" size={30} color={Colors.mau_icon}/>
+                        <Ionicons name="location-sharp" size={30} color={Colors.mau_icon} />
                         <Text style={styles.txtdiachi}>Ngũ Hành Sơn, Đà Nẵng</Text>
-                        <Ionicons name="caret-down-outline" size={20} color={Colors.white}/>
-                        <Icon name="bell-outline" size={30} color={Colors.white} style={{position: 'absolute', right: '5%'}}/>
+                        <Ionicons name="caret-down-outline" size={20} color={Colors.white} />
+                        <Icon name="bell-outline" size={30} color={Colors.white} style={{ position: 'absolute', right: '5%' }} />
                         <View style={styles.thongbao}>
                             <Text style={styles.txtThongbao}>22</Text>
                         </View>
@@ -55,17 +89,21 @@ const HomePage = ({}) => {
 
                 <View style={styles.GroupSearch}>
                     <View style={styles.txtSearch}>
-                        <Ionicons name="search" size={30} color={Colors.mau_icon}/>
-                        <Text style={styles.txtgiao}>Tìm kiếm</Text>
-                    </View>
+                        <Ionicons name="search" size={30} color={Colors.mau_icon} onPress={() => sreach()}/>
+                        <TextInput
+                            style={styles.txtgiao}
+                            placeholder="Nhập tên nhà hàng, món..."
+                            onChangeText={(text) => setSearchText(text)}
+                        />
+                    </View> 
                     <View style={styles.searchLoc}>
                         <Ionicons name="filter" size={30} color={Colors.white} style={{marginRight: 0}}/>
                     </View>
-                </View>
+                </View> 
 
-                <View style={styles.GroupDanhMuc}>
-                    <DanhMuc />
-                </View>
+                <TouchableOpacity style={styles.GroupDanhMuc} onPress={searchByCategory}>
+                    <DanhMuc onDanhMucChange={setActiveDanhMuc}/>
+                </TouchableOpacity>
             </View>
             <ScrollView style={styles.listAll}>
                 <View style={styles.GroupNhaHang}>
@@ -76,7 +114,7 @@ const HomePage = ({}) => {
                     <FlatList 
                         data={nhahangs}
                         keyExtractor={(item) => item?.id}
-                        horizontal
+                        horizontal  
                         renderItem={({item}) => (
                             <RestaurantCard
                             {...item} navigate={(IdNhaHang: any) => navigation.navigate(SCREENS.RESTAURANT, {IdNhaHang})}/>
@@ -85,33 +123,72 @@ const HomePage = ({}) => {
                 <View style={styles.sortList}>
                     <TouchableOpacity 
                         style={sortStyle(activeSortItem === 'gần đây')} 
-                        onPress={() => setActiveSortItem('gần đây')}>
+                        onPress={() => {
+                            setActiveSortItem('gần đây');
+                            setShowLoveCard(false);
+                            setShowGanDay(true);
+                        }}>
                         <Text style={styles.txtSort}>Gần đây</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={sortStyle(activeSortItem === 'yêu thích')} 
-                        onPress={() => setActiveSortItem('yêu thích')}>
+                        onPress={() => 
+                            {
+                                setActiveSortItem('yêu thích');
+                                setShowLoveCard(true);
+                                setShowGanDay(false);
+                            }}>
                         <Text style={styles.txtSort}>Yêu thích</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={sortStyle(activeSortItem === 'top tuần')}  
-                        onPress={() => setActiveSortItem('top tuần')}>
+                        onPress={() => {
+                            setActiveSortItem('top tuần');
+                            setShowLoveCard(false);
+                            setShowGanDay(true);
+                        }}>
                         <Text style={styles.txtSort}>Top tuần</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={sortStyle(activeSortItem === 'bán chạy')}  
-                        onPress={() => setActiveSortItem('bán chạy')}>
+                        onPress={() => {
+                            setActiveSortItem('bán chạy');
+                            setShowLoveCard(false);
+                            setShowGanDay(true);
+                        }}>
                         <Text style={styles.txtSort}>Bán chạy</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={sortStyle(activeSortItem === 'đánh giá')}  
-                        onPress={() => setActiveSortItem('đánh giá')}>
+                        onPress={() => {
+                            setActiveSortItem('đánh giá');
+                            setShowLoveCard(false);
+                            setShowGanDay(true);
+                        }}>
                         <Text style={styles.txtSort}>Đánh giá</Text>
                     </TouchableOpacity>
                 </View>
-                {nhahangs?.map((item: any) => (
-                        <SortNHCard {...item} key={item?.id}/>
-                    ))}  
+                {showLoveCard && (
+                    <View>
+                        {love.map((item: any) => (
+                        <LoveCard 
+                            {...item?.restaurant} 
+                            navigate={(IdNhaHang: any) => navigation.navigate(SCREENS.RESTAURANT, {IdNhaHang})} />
+                        ))}
+                    </View>
+                )}
+                {showGanDay && (
+                    <View>
+                        {nhahangs?.sort((a, b) => a.distance - b.distance)
+                            .map((item: any) => (
+                                <SortNHCard
+                                    {...item}
+                                    key={item?.id}
+                                    navigate={(IdNhaHang: any) => navigation.navigate(SCREENS.RESTAURANT, { IdNhaHang })}
+                                />
+                            ))}
+                    </View>
+                )}
             </ScrollView>
         </SafeAreaView>
     )
@@ -124,7 +201,7 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: Colors.nen,
-        height: '33%',
+        height: '35%',
         position: 'absolute',
         width: '100%',
         borderRadius: 30,
@@ -186,7 +263,8 @@ const styles = StyleSheet.create({
     },
     listAll: {
         zIndex: -1,
-        marginTop: '55%',
+        marginTop: '60%',
+        borderRadius: 5
     },
     GroupNhaHang: {
         marginTop: '5%',
@@ -196,6 +274,7 @@ const styles = StyleSheet.create({
     grTieuDe: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+
     },
     txtLeft: {
         color: Colors.nen,
@@ -215,6 +294,7 @@ const styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'row',
         borderBottomColor: Colors.white,
+
         borderBottomWidth: 5,
         backgroundColor: Colors.mau_icon,
         marginHorizontal: 2
@@ -228,7 +308,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         lineHeight: 20,
         padding: 5
-    }
+    },
+    input: {
+        flex: 1,
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        marginRight: 10,
+        borderRadius: 5,
+        backgroundColor: Colors.white,
+    },
 })
 
 export default HomePage

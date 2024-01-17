@@ -23,6 +23,10 @@ import LovePage from "../Pages/Love/LovePage";
 import AllOrderPage from "../Pages/Order/AllOrderPage";
 import { PayOrderPage } from "../Pages/Order/PayOrderPage";
 import { AllowOrderPage } from "../Pages/Order/AlllowOrder";
+import TrackOrderPage from "../Pages/Order/TrackOrderPage";
+import KetQuaSearchPage from "../Pages/Search/KetQuaSearchPage";
+import HomePage from "../Pages/Home/HomePage";
+import CategoryPage from "../Pages/Category/CategoryPage";
 
 const Stack = createNativeStackNavigator()
 
@@ -39,11 +43,11 @@ const Navigation = () => {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown:false}}>
                 {isAppLoading ? (
-                        <Stack.Screen name={SCREENS.SPLASH} component={SplashPage} />
+                        <Stack.Screen name={SCREENS.HI} component={GioiThieuPage} />
                     ) :!token ?  (
                         <>
                         {isLanDauUse && (
-                            <Stack.Screen name={SCREENS.HI} component={GioiThieuPage} />
+                            <Stack.Screen name={SCREENS.SPLASH} component={SplashPage} />
                         )}
                             <Stack.Screen name={SCREENS.LOGIN} component={LoginPage} />
                             <Stack.Screen name={SCREENS.REGISTER} component={RegisterPage} />
@@ -62,6 +66,9 @@ const Navigation = () => {
                             <Stack.Screen name={SCREENS.ORDER} component={AllOrderPage}/>
                             <Stack.Screen name={SCREENS.PAY_ORDER} component={PayOrderPage}/>
                             <Stack.Screen name={SCREENS.ALLOW_ORDER} component={AllowOrderPage}/>
+                            <Stack.Screen name={SCREENS.TRACK_ORDER} component={TrackOrderPage}/>
+                            <Stack.Screen name={SCREENS.SEARCH_RESULT} component={KetQuaSearchPage}/>
+                            <Stack.Screen name={SCREENS.CATEGORY} component={CategoryPage}/>
                         </>
                     )
                 }

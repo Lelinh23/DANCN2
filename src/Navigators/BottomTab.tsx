@@ -18,28 +18,28 @@ export default () => {
             shifting={true}
             >
 
-            <Tab.Screen name='HOME' component={HomePage} 
+            <Tab.Screen name='TRANG CHỦ' component={HomePage} 
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="home" size={26} color= { color } style={{}}/>
                     ),
                 }}/>
 
-            <Tab.Screen name='LOVE' component={LovePage} 
+            <Tab.Screen name='YÊU THÍCH' component={LovePage} 
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Ionicons name="favorite-border" size={26} color= { color } style={{}}/>
                     ),
                 }}/>
 
-            <Tab.Screen name='CART' component={CartPage}
+            <Tab.Screen name='GIỎ HÀNG' component={CartPage}
                 options={{
                     tabBarIcon: ({ color }) => (
                     <Ionicons name="shopping-cart-checkout" size={26} color= { color } style={{}}/>
                     ),
                 }}/>
 
-            <Tab.Screen name='ACCOUNT' component={AccountPage}
+            <Tab.Screen name='TÀI KHOẢN' component={AccountPage}
                 options={{
                     tabBarIcon: ({ color }) => (
                     <Ionicons name="person" size={26} color= { color } style={{}}/>

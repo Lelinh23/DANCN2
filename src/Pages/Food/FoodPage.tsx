@@ -114,7 +114,7 @@ const FoodPage = ({ route }: { route: any }) => {
                 <TouchableOpacity
                     style={styles.btCart}
                     onPress={() => navigation.navigate(SCREENS.CART)}>
-                    <Text style={styles.btGoCart}>Go to Cart</Text>
+                    <Text style={styles.btGoCart}>Thêm giỏ hàng</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

@@ -52,6 +52,6 @@
     "node": ">=16"
   },
   "projectConfig": {
-    "backendApiBaseUrl": "http://192.168.1.2:3000"
+    "backendApiBaseUrl": "http://192.168.43.154:3000"
   }
 }

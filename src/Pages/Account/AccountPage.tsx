@@ -31,9 +31,19 @@ const AccountPage = () => {
         dispatch(setUserData(null));
     }
 
+    const [darkMode, setDarkMode] = useState(false);
+
+    const style = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: darkMode ? Colors.white: Colors.gray,
+        },
+      });
+    
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
+            <View style={style.container}>
                 <StatusBar
                     barStyle="light-content"
                     backgroundColor={Colors.nen}
@@ -155,13 +165,14 @@ const AccountPage = () => {
                                 size={20}
                                 color={Colors.nen}
                             />
-                            <Text style={styles.txtMucNho}>Dark Mode</Text>
+                            <Text style={styles.txtMucNho}>Ban đêm</Text>
                         </View>
                         <BouncyCheckbox
                             size={18}
                             fillColor= "#30b9b2"
                             textStyle={{ textDecorationLine: "none" }}
-                            innerIconStyle={{ borderRadius: 20, borderWidth: 2}}/>
+                            innerIconStyle={{ borderRadius: 20, borderWidth: 2}}
+                            onPress={() => setDarkMode(!darkMode)}/>
                     </View>
 
                     <View style={styles.groupMucNho}>
@@ -175,7 +186,7 @@ const AccountPage = () => {
                                 size={18}
                                 color={Colors.nen}
                             />
-                            <Text style={styles.txtMucNho}>Logout</Text>
+                            <Text style={styles.txtMucNho}>Đăng suất</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -184,10 +195,6 @@ const AccountPage = () => {
 )};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.white,
-      },
       mauTop: {
         backgroundColor: Colors.nen,
         height: '28%',

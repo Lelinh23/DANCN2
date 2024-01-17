@@ -16,9 +16,10 @@ interface SortNHCardProps {
     tags: any;
     distance: any;
     time: any;
+    navigate: any;
   }
 
-const SortNHCard: React.FC<SortNHCardProps> = ({name, id, images: { logo }, tags, distance, time}) => {
+const SortNHCard: React.FC<SortNHCardProps> = ({name, id, images: { logo }, tags, distance, time, navigate}) => {
     const navigation = useNavigation();
 
     const dispatch = useAppDispatch()
@@ -30,11 +31,8 @@ const SortNHCard: React.FC<SortNHCardProps> = ({name, id, images: { logo }, tags
     const isLove = useAppSelector(state =>
         state?.loveState?.love?.filter((item: any) => item?.IdNhaHang === id)?.length > 0)
 
-    const addYeuThich = () => dispatch<any>(AddYeuThich(id))
-    const xoaKhoiLove = () => dispatch<any>(XoaKhoiLove(id))
-
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigate(id)}>
             <View style={styles.phan}>
                 <View style={styles.Vimage}>
                     <Image 
@@ -54,7 +52,11 @@ const SortNHCard: React.FC<SortNHCardProps> = ({name, id, images: { logo }, tags
                     </View>
                 </View>
                 <View style={styles.Vicon}>
-                    <Ionicons name='favorite-border' size={20} color={Colors.red}/>
+                    <Ionicons 
+                        name={isLove ? 'favorite' : 'favorite-border'} 
+                        size={20} 
+                        color={Colors.red}
+                    />
                 </View>
             </View>
         </TouchableOpacity>
@@ -73,9 +75,11 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         height: '100%'
+        
     },
     Vimage: {
         width: '30%',
+        
     },
     Pnoidung: {
         width: '60%',

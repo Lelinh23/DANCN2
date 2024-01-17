@@ -7,8 +7,6 @@ import { STATIC_IMAGE } from '../helpers/ApiConstants';
 import Icons from "react-native-vector-icons/AntDesign";
 import { AddToCart, GetCartItem, xoadFromCart } from '../Redux/Actions/CartAction';
 import { useAppSelector, useAppDispatch } from '../Redux/app/hooks'
-import { getCartItem } from '../Services/Cart';
-import { cartReducer } from '../Redux/Reducers/Cart';
 
 interface FoodCartProps {
     name: any;

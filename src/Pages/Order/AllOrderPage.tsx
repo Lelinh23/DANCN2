@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { getAllOrder } from "../../Services/Order";
-import AllOrderList from "../../Components/OrderCart";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Colors } from "../../assets/colors";
+import AllOrderList from "../../Components/AllOrderCart";
 
 const AllOrderPage = ({route}: {route: any}) => {
   const navigation = useNavigation();
@@ -23,7 +23,7 @@ const AllOrderPage = ({route}: {route: any}) => {
   }, []); // Fetch orders only once when the component mounts
 
   return (
-    <ScrollView>
+    <ScrollView style={{marginTop: 18 }}>
       <View style={styles.orderSummary}>
         <Ionicons
             name="chevron-back-outline"

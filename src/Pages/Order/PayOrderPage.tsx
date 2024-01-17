@@ -15,13 +15,15 @@ const PayOrderPage = ({route}: {route: any}) => {
 
     const { email, cartItems, cartMeta } = route.params;
     const navigation: any = useNavigation();
-    const [address, setAddress] = useState("");
+    const defaultAddress = "Điện Ngọc, Điện Bàn, Quảng Nam, Việt Nam";
+    const [address, setAddress] = useState(defaultAddress);
     const dispatch = useAppDispatch();
     const [user, setUser] = useState<any>(null);
     const [orderData, setOrderData] = useState(null); 
     
+    
     useEffect(() => {
-        getUserData().then(response => {
+        getUserData().then(response => {    
             console.log(response?.data);
             setUser(response?.data);
         })
@@ -38,7 +40,7 @@ const PayOrderPage = ({route}: {route: any}) => {
     };
     
     return (
-        <ScrollView>
+        <ScrollView style={{marginTop: 18 }}>
             <View style={styles.orderSummary}>
                 <Ionicons
                     name="chevron-back-outline"
@@ -60,10 +62,10 @@ const PayOrderPage = ({route}: {route: any}) => {
                         <View>
                             <Text style={styles.txtLocation}> Địa chỉ giao hàng</Text>
                             <Text style={styles.txtLocation}>{user?.data?.username} | 093894823</Text>
-                            <Text style={styles.txtLocation}>Điện Ngọc, Điện Bàn, Quảng Nam, Việt Nam</Text>
                             <TextInput
                                 onChangeText={setAddress}
                                 value={address}
+                                style={styles.txtLocation}
                                 placeholder="Nhập địa chỉ giao hàng"
                             />
                         </View>

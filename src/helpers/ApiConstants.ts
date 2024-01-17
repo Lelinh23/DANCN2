@@ -13,6 +13,10 @@ const STATIC_IMAGE = {
     SIZE: {SQUARE: 'square', COVER: 'cover', PORTRAIT: 'portrait'},
 }
 
+const URL_ORDER = {
+    URL: {TRACK: 'trackOrder', STATUS: 'updateStatus'},
+}
+
 const SERVER_API = {
     BASE_API_URL: `${BACKEND_BASE_URL}/api`,
     REGISTER: '/register',
@@ -27,4 +31,4 @@ const SERVER_API = {
     ORDER: '/order'
 }
 
-export {CO_QUOC_GIA, SERVER_API, STATIC_IMAGE};
+export {CO_QUOC_GIA, SERVER_API, STATIC_IMAGE, URL_ORDER};

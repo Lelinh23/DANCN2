@@ -1,4 +1,4 @@
-import { getAllOrder, placeOrder } from '../../Services/Order';
+import { getAllOrder, placeOrder, trackOrder } from '../../Services/Order';
 
 const orderTypes = {
     PLACE_ORDER: 'PLACE_ORDER',
@@ -60,4 +60,33 @@ const GetAllOrders = (email: any) => {
       )
     };
 };
-export {orderTypes, OrderFood, GetAllOrders}
+
+const TrackOrder = (_id: any) => {
+  return async (dispatch: any) => {
+      dispatch({
+          type: orderTypes.PLACE_ORDER,
+          payload: true
+      });
+
+      try {
+          const orderResponse = await trackOrder(_id);
+          dispatch({
+              type: orderTypes.PLACE_ORDER_SUCCESS,
+              payload: orderResponse?.data
+          });
+
+          dispatch({
+              type: orderTypes.SET_IS_LOADING,
+              payload: false
+          });
+
+          return orderResponse?.data; // Trả về dữ liệu từ action
+      } catch (error) {
+          dispatch({
+              type: orderTypes.SET_IS_LOADING,
+              payload: false
+          });
+      }
+  }
+}
+export {orderTypes, OrderFood, GetAllOrders, TrackOrder}

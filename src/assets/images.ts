@@ -1,5 +1,5 @@
 const Images: { [key: string]: any } = {
-    LOGO: require('../assets/images/logo.png'),
+    LOGO: require('../assets/images/logo.json'),
     LOADING: require('../assets/images/loading.json'),
     FORGOT: require('../assets/images/forgot.png'),
     COM: require('../assets/images/DanhMuc/com.png'),
@@ -12,6 +12,7 @@ const Images: { [key: string]: any } = {
     DISTANCE: require('../assets/images/location.json'),
     CART_NO_ITEM: require('./images/cartIsItem.json'),
     AVATAR: require('./images/avata.png'),
-    SUSSED: require('./images/thanhcong.json')
+    SUSSED: require('./images/thanhcong.json'),
+    CATEGORY: require('./images/noCatgory.json')
   };
 export { Images };

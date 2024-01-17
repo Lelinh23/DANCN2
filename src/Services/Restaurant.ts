@@ -60,3 +60,38 @@ export const getNhaHangTheo1Id = async (IdNhaHang: any) => {
         }
     }
 }
+
+export const searchNhaHangTheoTen = async (searchText: any) => {
+    console.log('NhaHangService | searchNhaHangTheoTen |', searchText);
+    try {
+        let tim = {
+            searchText: searchText
+        };
+
+        let nhahangResponse = await axios.post(
+            `${SERVER_API.BASE_API_URL}${SERVER_API.RESTAURANT}/search/tim`, tim,
+            {
+                headers: authHeader(getToken())
+            }
+        );
+
+        if (nhahangResponse?.status === 200) {
+            return {
+                status: true,
+                message: 'Dữ liệu nhà hàng đã được lấy',
+                data: nhahangResponse?.data
+            }
+        } else {
+            return {
+                status: false,
+                message: `Không được tìm thấy dữ liệu nhà hàng`,
+            }
+        }
+    } catch (error) {
+        console.error('Error during searchNhaHangTheoTen:', error);
+        return {
+            status: false,
+            message: `Đã xảy ra lỗi khi tìm kiếm nhà hàng`,
+        }
+    }
+}

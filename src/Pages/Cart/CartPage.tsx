@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from '../../assets/colors';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useAppDispatch, useAppSelector } from "../../Redux/app/hooks";
 import { FoodCart } from "../../Components/FoodCart";
@@ -17,9 +17,11 @@ const CartPage = () => {
     const navigation: any = useNavigation();
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch<any>(GetCartItem());
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            dispatch<any>(GetCartItem());
+        }, [])
+    );
 
     const cart = useAppSelector(state => state?.cartState?.cart);
 
@@ -29,6 +31,7 @@ const CartPage = () => {
         const cartMeta = cart?.metaData;
         navigation.navigate(SCREENS.PAY_ORDER, { email, cartItems, cartMeta  });
     };
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
@@ -103,20 +106,21 @@ const CartPage = () => {
                             </View>
 
                             <TouchableOpacity style={styles.checkoutButton} onPress={handlePlaceOrder}>
-                                <Text style={styles.txtCheck}>Đặt đơn - {cart?.metaData?.tongCong?.toFixed(3)}đ</Text>
+                                <Text style={styles.txtCheck}>Đặt đơn : {cart?.metaData?.tongCong?.toFixed(3)}đ</Text>
                             </TouchableOpacity>
 
                         </ScrollView>
                     </>
                 ) : (
                     <View style={styles.ViewNotItem}>
-                        <LottieView source={Images.CART_NO_ITEM} style={styles.lottie} autoPlay/>
-                        <Text style={styles.txtNo}>"Hống" có gì trong giỏ hết</Text>
-                        <Text style={styles.txtLuot}>Lướt app, lựa món ngon đi!</Text>
-                        <TouchableOpacity style={styles.addButton}>
+                        <LottieView source={Images.CART_NO_ITEM} style={styles.lottie} autoPlay />
+                        <Text style={styles.txtNo}>Không có sản phẩm nào trong giỏ hàng</Text>
+                        <Text style={styles.txtLuot}>Hãy lướt app và chọn món ngon nhé!</Text>
+                        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate(SCREENS.LOVE)}>
                             <Text style={styles.txtK}>Kiếm món ngay!</Text>
                         </TouchableOpacity>
                     </View>
+
                 )}
             </View>
         </SafeAreaView>

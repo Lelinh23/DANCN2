@@ -1,5 +1,5 @@
 // orderService.js
-import { SERVER_API } from "../helpers/ApiConstants";
+import { SERVER_API, URL_ORDER } from "../helpers/ApiConstants";
 import axios from "axios";
 import { authHeader } from "../helpers/Chung";
 import { getToken } from "../Redux/Store/Store";
@@ -65,4 +65,36 @@ const getAllOrder = async (email: any) => {
     }
 }
 
-export { placeOrder, getAllOrder }
+const trackOrder = async (orderId: any) => {
+    console.log('OrderService | trackOrder|', orderId);
+    try {
+        let orderResponse = await axios.get(
+            `${SERVER_API.BASE_API_URL}${SERVER_API.ORDER}/trackOrder/${orderId}`,
+            {
+                headers: authHeader(getToken()),
+            }
+        );
+        console.log('Test _id', orderResponse.data);
+
+        if (orderResponse?.status === 200) {
+            return {
+                status: true,
+                message: 'Dữ liệu đơn hàng đã được lấy',
+                data: orderResponse?.data,
+            };
+        } else {
+            return {
+                status: false,
+                message: `Không được tìm thấy dữ liệu đơn hàng`,
+            };
+        }
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        return {
+            status: false,
+            message: `Dữ liệu đơn hàng không được tìm thấy`,
+        };
+    }
+};
+
+export { placeOrder, getAllOrder, trackOrder }

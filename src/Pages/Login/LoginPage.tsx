@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, View, Text, TextInput, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, TextInput, TouchableOpacity, StatusBar } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from "../../assets/colors";
@@ -43,7 +43,7 @@ const LoginPage = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen, marginTop: 18}}>
             <View style={styles.header}>
                 <Text style={styles.TillerHeader}> ĐĂNG NHẬP </Text>
             </View>

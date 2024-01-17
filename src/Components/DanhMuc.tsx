@@ -4,7 +4,7 @@ import { Images } from '../assets/images';
 import { DANHMUC } from '../helpers/Mock';
 import { Colors } from '../assets/colors';
 
-const DanhMuc = () => {
+const DanhMuc = ({ onDanhMucChange }: { onDanhMucChange: (danhMuc: string) => void }) => {
     const [activeDanhMuc, setActiveDanhMuc] = useState<string | null>(null);
   return (
     <View style={styles.container}>
@@ -12,7 +12,10 @@ const DanhMuc = () => {
         <TouchableOpacity
           style={styles.danhmuc}
           key={name}
-          onPress={() => setActiveDanhMuc(name)}
+          onPress={() => {
+            setActiveDanhMuc(name);
+            onDanhMucChange(name)
+          }}
         >
           <Image source={Images[logo]} style={styles.danhmucIcon} resizeMode='center'/>
           <Text style={styles.txtDanhMuc}>{name}</Text>

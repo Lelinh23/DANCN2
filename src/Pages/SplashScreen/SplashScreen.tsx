@@ -5,14 +5,15 @@ import { Images } from '../../assets/images';
 import { SCREENS } from "../../helpers/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 
 const SplashPage = () => {
-    const navigation = useNavigation();
-    // useEffect(()=> {
-    //     setTimeout(()=>{
-    //         navigation.navigate(SCREENS.HI);
-    //     }, 3000)
-    // }, [])
+    const navigation: any = useNavigation();
+    useEffect(()=> {
+        setTimeout(()=>{
+            navigation.navigate(SCREENS.LOGIN);
+        }, 3000)
+    }, [])
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar
@@ -20,8 +21,8 @@ const SplashPage = () => {
                 backgroundColor={Colors.nen}
                 translucent/>
             <View style={styles.container}>
-                <Image source={Images.LOGO} resizeMode="contain" style={styles.image} />
-                <Text style={styles.titleText}>FooDelivery</Text>
+                <LottieView source={Images.LOGO} resizeMode="contain" style={styles.image} autoPlay/>
+                <Text style={styles.titleText}>Đặt đồ ăn</Text>
             </View>
         </SafeAreaView>
     );
@@ -35,11 +36,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.nen
     },
     image: {
-        height: 100,
-        width: 100,
+        height: 250,
+        width:  250,
     },
     titleText: {
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 32
     }
 });

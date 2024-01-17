@@ -57,7 +57,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.nen,  marginTop: 18}}>
             <View style={styles.header}>
                 <Text style={styles.TillerHeader}> ĐĂNG KÝ </Text>
                 <Text style={styles.txtNewAcc}> Tạo một tài khoản mới </Text>
@@ -95,7 +95,10 @@ const RegisterPage = () => {
                 <Text style={styles.loiMess}>{errorMessage}</Text>
 
                 <View style={styles.buttonSig}>  
-                    <TouchableOpacity style={styles.button} onPress={() => dangky()}>
+                    <TouchableOpacity style={styles.button} onPress={() => {
+                        dangky(); 
+                        navigation.navigate(SCREENS.REGSDT)
+                    }}>
                     {isLoading ? 
                     (<LottieView style={styles.lottie} source={Images.LOADING} autoPlay />)
                                                         :
