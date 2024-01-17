@@ -94,4 +94,67 @@ const getAllOrder =  async ( email ) => {
         }
     }
 }
-module.exports = { datHang, getAllOrder }
+
+const updateStatusOrder = async ({orderId, newStatus}) => {
+    try {
+        let result = await MongoDB.db
+            .collection(mongoConfig.collections.ORDER)
+            .updateOne({ orderId: orderId }, { $set: { status: newStatus } });
+
+        if (result.modifiedCount > 0) {
+            return {
+                status: true,
+                message: "Cập nhật trạng thái đơn hàng thành công",
+            };
+        } else {
+            return {
+                status: false,
+                message: "Cập nhật trạng thái đơn hàng thất bại",
+            };
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: "Không thể cập nhật trạng thái đơn hàng",
+            error: error.message,
+        };
+    }
+};
+
+const trackOrder = async (orderId) => {
+    try {
+        let order = await MongoDB.db
+            .collection(mongoConfig.collections.ORDER)
+            .findOne({ _id: ObjectId(orderId) });
+
+        console.log(order);
+
+        if (order) {
+            return {
+                status: true,
+                message: "Tìm thấy đơn hàng",
+                data: {
+                    orderId: order._id,
+                    status: order.status,
+                    createdAt: order.createdAt,
+                },
+            };
+        } else {
+            return {
+                status: false,
+                message: "Không tìm thấy đơn hàng",
+            };
+        }
+    } catch (error) {
+        console.error('Error tracking order:', error);
+        return {
+            status: false,
+            message: "Không thể theo dõi đơn hàng",
+            error: error.message,
+        };
+    }
+};
+
+
+
+module.exports = { datHang, getAllOrder, updateStatusOrder, trackOrder}

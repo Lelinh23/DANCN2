@@ -18,7 +18,7 @@
   },
   "projectConfig": {
     "mongoConnectionUrl": "mongodb+srv://linh:Thuylinh23@atlascluster.4qzvdvo.mongodb.net/",
-    "serverIp": "192.168.1.2",
+    "serverIp": "192.168.43.154",
     "serverPort": 3000
   }
 }

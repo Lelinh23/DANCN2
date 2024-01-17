@@ -2,7 +2,7 @@ const config = require('./package.json').projectConfig
 
 module.exports = {
     mongoConfig: {
-        connectionUrl: config.mongoConnectionUrl,//"192.168.1.15",
+        connectionUrl: config.mongoConnectionUrl,
         database: 'food_db',
         collections: {
             USERS: 'users',

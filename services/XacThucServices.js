@@ -137,7 +137,13 @@ const checkExistUser = async (query) => {
         console.log(userObject);
 
         return !userObject ? 
-        {status: true, message: `Chưa có người dùng sử dụng ${queryType} này`} : {status: false, message: messages[queryType]}
+        {
+            status: true, 
+            message: `Chưa có người dùng sử dụng ${queryType} này`
+        } : {
+            status: false, 
+            message: messages[queryType]
+        }
     } catch (error) {
         
     }
